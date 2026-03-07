@@ -1,12 +1,12 @@
 import type { Request, Response } from "express";
 import { postServices } from "./post.service";
 
-const getAllPosts = (req: Request, res: Response) => {
+const getAllPosts = async (req: Request, res: Response) => {
   try {
-    const result = postServices.getAllPosts();
+    const result = await postServices.getAllPosts();
     res.json({
       success: true,
-      message : "data received",
+      message : "All posts",
       data: result,
     });
   } catch (err) {
@@ -18,9 +18,9 @@ const getAllPosts = (req: Request, res: Response) => {
   }
 };
 
-const createPost = (req: Request, res: Response) => {
+const createPost = async (req: Request, res: Response) => {
   try {
-    const result = postServices.createPost(req.body);
+    const result = await postServices.createPost(req.body);
     res.json({
         success: true,
         data : result

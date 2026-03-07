@@ -1,10 +1,15 @@
+import prisma from "../../db/prisma";
+import type { Post } from "../../generated/prisma/client";
+import type { PostCreateInput } from "../../generated/prisma/models";
 
-const getAllPosts = ()=>{
-    return "All Post"
+const getAllPosts = async ()=>{
+    const allposts = await prisma.post.findMany();
+    return allposts;
 }
-const createPost = (data:any)=>{
+const createPost = async (data:PostCreateInput)=>{
     // console.log(data);
-    return data;
+    const result = await prisma.post.create({data});
+    return result;
 }
 
 export const postServices = {
