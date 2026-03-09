@@ -1,5 +1,4 @@
 import prisma from "../../db/prisma";
-import type { Post } from "../../generated/prisma/client";
 import type { PostCreateInput } from "../../generated/prisma/models";
 
 const getAllPosts = async ()=>{
