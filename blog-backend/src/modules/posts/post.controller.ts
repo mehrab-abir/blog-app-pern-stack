@@ -1,7 +1,8 @@
 import type { Request, Response } from "express";
 import { postServices } from "./post.service";
 
-const getAllPosts = async (req: Request, res: Response) => {
+//? for seaching only
+/* const getAllPosts = async (req: Request, res: Response) => {
   const { searchText } = req.query;
   try {
     const result = await postServices.getAllPosts(
@@ -19,7 +20,26 @@ const getAllPosts = async (req: Request, res: Response) => {
       message: "something went wrong",
     });
   }
-};
+}; */
+
+//? for search, filter of multiple paramters..all in one,,using 'AND'
+const getAllPosts = async(req:Request, res:Response)=>{  
+  try{
+    const result = await postServices.getAllPosts(req.query as any);
+    res.json({
+      success : true,
+      message : "Found result",
+      data : result
+    })
+  }
+  catch(err){
+    return res.status(500).json({
+      success: false,
+      message: "something went wrong",
+      error : err
+    });
+  }
+}
 
 const filterPostsByTags = async (req: Request, res: Response) => {
   const { tags } = req.query;
@@ -31,12 +51,12 @@ const filterPostsByTags = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: result,
+      data: result,
     });
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: "some went wrong",
+      message: "something went wrong",
     });
   }
 };
