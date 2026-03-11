@@ -2,12 +2,14 @@ import type { Request, Response } from "express";
 import { postServices } from "./post.service";
 
 const getAllPosts = async (req: Request, res: Response) => {
-  const {searchText} = req.query;
+  const { searchText } = req.query;
   try {
-    const result = await postServices.getAllPosts(searchText as string | undefined);
+    const result = await postServices.getAllPosts(
+      searchText as string | undefined,
+    );
     res.json({
       success: true,
-      message : "All posts",
+      message: "All posts",
       data: result,
     });
   } catch (err) {
@@ -19,13 +21,33 @@ const getAllPosts = async (req: Request, res: Response) => {
   }
 };
 
+const filterPostsByTags = async (req: Request, res: Response) => {
+  const { tags } = req.query;
+
+  const tagsArray = (tags as string).split(",") || [];
+
+  try {
+    const result = await postServices.filterPostsByTags(tagsArray);
+
+    res.status(200).json({
+      success: true,
+      message: result,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "some went wrong",
+    });
+  }
+};
+
 const createPost = async (req: Request, res: Response) => {
   try {
     const result = await postServices.createPost(req.body);
     res.json({
-        success: true,
-        data : result
-    })
+      success: true,
+      data: result,
+    });
   } catch (err) {
     console.log(err);
     res.send({
@@ -37,5 +59,6 @@ const createPost = async (req: Request, res: Response) => {
 
 export const postController = {
   getAllPosts,
+  filterPostsByTags,
   createPost,
 };

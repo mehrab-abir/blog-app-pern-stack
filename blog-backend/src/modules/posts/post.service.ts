@@ -36,6 +36,20 @@ const getAllPosts = async (searchText?: string) => {
   return allposts;
 };
 
+//* filter posts by tags
+const filterPostsByTags = async(tags: string[]) =>{
+    const filteredPosts = await prisma.post.findMany({
+        where : {
+            tags : {
+                // hasSome : tags //* partial matches allowed
+                hasEvery : tags //* must match all items, otherwise returns []
+            }
+        }
+    });
+
+    return filteredPosts;
+}
+
 const createPost = async (data: PostCreateInput) => {
   // console.log(data);
   const result = await prisma.post.create({ data });
@@ -44,5 +58,6 @@ const createPost = async (data: PostCreateInput) => {
 
 export const postServices = {
   getAllPosts,
+  filterPostsByTags,
   createPost,
 };
