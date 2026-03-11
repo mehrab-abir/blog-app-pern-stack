@@ -1,15 +1,41 @@
 import prisma from "../../db/prisma";
-import type { PostCreateInput } from "../../generated/prisma/models";
+import type {
+  PostCreateInput,
+  PostFindManyArgs,
+} from "../../generated/prisma/models";
 
-const getAllPosts = async ()=>{
-    const allposts = await prisma.post.findMany();
-    return allposts;
-}
-const createPost = async (data:PostCreateInput)=>{
-    // console.log(data);
-    const result = await prisma.post.create({data});
-    return result;
-}
+const getAllPosts = async (searchText?: string) => {
+  const query: PostFindManyArgs = {};
+
+  if (searchText) {
+    query.where = {
+      OR: [
+        {
+          title: {
+            contains: searchText,
+            mode: "insensitive",
+          }
+        },
+        {
+            content : {
+                contains : searchText,
+                mode : "insensitive"
+            }
+        }
+      ],
+    };
+  }
+
+  const allposts = await prisma.post.findMany(query);
+
+  return allposts;
+};
+
+const createPost = async (data: PostCreateInput) => {
+  // console.log(data);
+  const result = await prisma.post.create({ data });
+  return result;
+};
 
 export const postServices = {
   getAllPosts,

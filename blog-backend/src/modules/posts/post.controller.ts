@@ -2,8 +2,9 @@ import type { Request, Response } from "express";
 import { postServices } from "./post.service";
 
 const getAllPosts = async (req: Request, res: Response) => {
+  const {searchText} = req.query;
   try {
-    const result = await postServices.getAllPosts();
+    const result = await postServices.getAllPosts(searchText as string | undefined);
     res.json({
       success: true,
       message : "All posts",
