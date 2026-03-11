@@ -14,14 +14,19 @@ const getAllPosts = async (searchText?: string) => {
           title: {
             contains: searchText,
             mode: "insensitive",
-          }
+          },
         },
         {
-            content : {
-                contains : searchText,
-                mode : "insensitive"
-            }
-        }
+          content: {
+            contains: searchText,
+            mode: "insensitive",
+          },
+        },
+        {
+          tags : {
+            has : searchText
+          }
+        },
       ],
     };
   }
