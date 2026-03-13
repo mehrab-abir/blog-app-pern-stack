@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { postServices } from "./post.service";
 
 //? for seaching only
@@ -23,7 +23,7 @@ import { postServices } from "./post.service";
 }; */
 
 //? for search, filter of multiple paramters..all in one,,using 'AND'
-const getAllPosts = async(req:Request, res:Response)=>{  
+const getAllPosts = async(req:Request, res:Response, next:NextFunction)=>{  
   try{
     const result = await postServices.getAllPosts(req.query as any);
     res.json({
@@ -33,11 +33,7 @@ const getAllPosts = async(req:Request, res:Response)=>{
     })
   }
   catch(err){
-    return res.status(500).json({
-      success: false,
-      message: "something went wrong",
-      error : err
-    });
+    next(err);
   }
 }
 
@@ -61,7 +57,7 @@ const filterPostsByTags = async (req: Request, res: Response) => {
   }
 };
 
-const createPost = async (req: Request, res: Response) => {
+const createPost = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const result = await postServices.createPost(req.body);
     res.json({
@@ -69,11 +65,7 @@ const createPost = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
-    res.send({
-      success: false,
-      message: "something went wrong",
-    });
+    next(err);
   }
 };
 
