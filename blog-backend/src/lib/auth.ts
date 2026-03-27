@@ -4,6 +4,7 @@ import prisma from "../db/prisma";
 import { sendEmail } from "../utils/sendEmail";
 
 export const auth = betterAuth({
+  trustedOrigins: ["http://localhost:3000"],
   database: prismaAdapter(prisma, {
     provider: "postgresql", // or "mysql", "postgresql", ...etc
   }),
@@ -98,6 +99,12 @@ export const auth = betterAuth({
       //* (to, subject, email body)
     },
     autoSignInAfterVerification: true,
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
   },
   user: {
     additionalFields: {
