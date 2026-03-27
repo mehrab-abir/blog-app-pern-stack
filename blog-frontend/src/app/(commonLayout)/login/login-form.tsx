@@ -24,13 +24,21 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
 
   const googleLogin = async()=>{
-    const data = await authClient.signIn.social({
+    await authClient.signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000", //client url
+      callbackURL: "http://localhost:3000/login", //client url
     });
-
-    console.log(data);
   }
+
+  /*
+  ways to get user session:
+  - const session = authClient.useSession();
+  - const session = await authClient.getSession();
+  - fetch('app_url/api/auth/get-session',{headers : {cookies.toString()}})
+  */
+  
+  /* const session = authClient.useSession();
+  console.log(session); */
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
