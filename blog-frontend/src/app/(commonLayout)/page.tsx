@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { blogService } from "@/services/blog.service";
 import { userService } from "@/services/user.service";
 
 export default async function Home() {
   const { data: session } = await userService.getSession(); //see user.service.ts file in 'services' folder
+
+  const result = await blogService.getBlogPosts();
+  console.log(result);
 
   return (
     <div>
@@ -16,6 +20,8 @@ export default async function Home() {
       ) : (
         <h3 className="text-red-500 fotn-bold text-lg">Not Logged In</h3>
       )}
+
+      <div></div>
     </div>
   );
 }
