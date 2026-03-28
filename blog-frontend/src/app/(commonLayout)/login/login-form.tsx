@@ -26,7 +26,7 @@ export function LoginForm({
   const googleLogin = async()=>{
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:3000/login", //client url
+      callbackURL: "http://localhost:3000", //client url
     });
   }
 
