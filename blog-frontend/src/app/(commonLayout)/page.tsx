@@ -1,28 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { cookies } from "next/headers";
-
-/*
-  ways to get user session:
-  - const session = authClient.useSession();
-  - const session = await authClient.getSession();
-  - connt res = await fetch('app_url/api/auth/get-session',{headers : {cookies.toString()}})...await res.json();
-*/
+import { userService } from "@/services/user.service";
 
 export default async function Home() {
+  const { data: session } = await userService.getSession(); //see user.service.ts file in 'services' folder
 
-  //getting user session uisng 'fetch' in the server component, send cookies manually
-  const cookieStore = await cookies();
-
-  const res = await fetch('http://localhost:8000/api/auth/get-session',{
-    headers : {
-      cookie : cookieStore.toString()
-    },
-    cache : "no-store"
-  })
-
-  const session = await res.json();
-  console.log(session);
-
+  console.log("User session:", session);
 
   return (
     <div>

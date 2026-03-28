@@ -32,7 +32,7 @@ export function LoginForm({
 
   /*
   ways to get user session:
-  - const session = authClient.useSession();
+  - const session = authClient.useSession(); //hook
   - const session = await authClient.getSession();
   - fetch('app_url/api/auth/get-session',{headers : {cookies.toString()}})
   */
