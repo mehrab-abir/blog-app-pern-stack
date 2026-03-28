@@ -8,7 +8,14 @@ export default async function Home() {
     <div>
       <Button>Home Page</Button>
 
-      <h1 className="text-2xl font-bold">User: {session ? session?.user?.name : "not logged in"} </h1>
+      {session ? (
+        <>
+          <h1 className="text-2xl font-bold text-emerald-600">User: {session?.user?.name} </h1>
+          <p className="text-xl">Role: {session?.user?.role}</p>
+        </>
+      ) : (
+        <h3 className="text-red-500 fotn-bold text-lg">Not Logged In</h3>
+      )}
     </div>
   );
 }
